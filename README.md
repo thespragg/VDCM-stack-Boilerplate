@@ -55,17 +55,17 @@ npm run lint
 ### Dependencies
 
 #### Frontend
-*Vuex
-*Vue-router
-*Axios
+* Vuex
+* Vue-router
+* Axios
 
 #### Backend
-*Microsoft.AspNetCore.Authentication.JwtBearer
-*Konscious.Security.Cryptography.Argon2
-*Microsoft.EntityFrameworkCore.SqlServer
-*Microsoft.EntityFrameworkCore.Tools
-*Microsoft.Extensions.Logging.Debug
-*Microsoft.IdentityModel.Tokens
-*Microsoft.VisualStudio.Web.CodeGeneration.Design
-*MongoDB.Driver
-*System.IdentityModel.Tokens.Jwt
+* Microsoft.AspNetCore.Authentication.JwtBearer
+* Konscious.Security.Cryptography.Argon2
+* Microsoft.EntityFrameworkCore.SqlServer
+* Microsoft.EntityFrameworkCore.Tools
+* Microsoft.Extensions.Logging.Debug
+* Microsoft.IdentityModel.Tokens
+* Microsoft.VisualStudio.Web.CodeGeneration.Design
+* MongoDB.Driver
+* System.IdentityModel.Tokens.Jwt
