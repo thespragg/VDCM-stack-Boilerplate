@@ -59,8 +59,10 @@ export default {
         this.$http
           .post(apiCall, { username: this.username, password: this.password })
           .then(res => {
-            console.log(res)
-            this.$emit("authorised");
+            //create proper response handler
+            if (res.data) {
+              this.$emit("authorised");
+            }
           });
       }
     }

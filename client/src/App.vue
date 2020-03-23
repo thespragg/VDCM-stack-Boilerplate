@@ -4,7 +4,7 @@
       <RouterView></RouterView>
     </div>
     <div v-else>
-      <Login v-on:authorised="this.authenticated = true"/>
+      <Login v-on:authorised="authenticated = true"/>
     </div>
   </div>
 </template>
