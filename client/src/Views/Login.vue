@@ -1,50 +1,67 @@
 <template>
   <div class="login-container">
-    <div class="login-logo">Contrakter</div>
+    <div class="login-logo">Title</div>
     <div class="login-box">
       <h3>LOGIN</h3>
 
-        <div class="login-input-outer" data-validate="Username is required">
-          <input v-model="username" class="login-input" type="text" name="username" placeholder="Username" />
-          <span class="input-anim"></span>
+      <div class="login-input-outer" data-validate="Username is required">
+        <input
+          v-model="username"
+          class="login-input"
+          type="text"
+          name="username"
+          placeholder="Username"
+        />
+        <span class="input-anim"></span>
+      </div>
+
+      <div class="login-input-outer" data-validate="Password is required">
+        <input
+          v-model="password"
+          class="login-input"
+          type="password"
+          name="pass"
+          placeholder="Password"
+        />
+        <span class="input-anim"></span>
+      </div>
+
+      <div class="options">
+        <div>
+          <input id="ckb1" class="rmb-check" type="checkbox" name="remember-me" />
+          <label for="ckb1" class="lbl-check">Remember me</label>
         </div>
 
-        <div class="login-input-outer" data-validate="Password is required">
-          <input v-model="password" class="login-input" type="password" name="pass" placeholder="Password" />
-          <span class="input-anim"></span>
+        <div class="forgot">
+          <a href="#">Forgot?</a>
         </div>
+      </div>
 
-        <div class="options">
-          <div>
-            <input id="ckb1" class="rmb-check" type="checkbox" name="remember-me" />
-            <label for="ckb1" class="lbl-check">Remember me</label>
-          </div>
-
-          <div class="forgot">
-            <a href="#">Forgot?</a>
-          </div>
-        </div>
-
-        <div class="btn-container">
-          <button class="login-btn">Login</button>
-        </div>
+      <div class="btn-container">
+        <button class="login-btn" @click="login()">Login</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-      username: '',
-      password: ''
-    }
+  data() {
+    return {
+      username: "",
+      password: ""
+    };
   },
-  methods:{
-    login(){
-      if(this.username && this.password){
-        //Do login call here
-        this.$emit('authorised');
+  methods: {
+    login() {
+      if (this.username && this.password) {
+        let apiCall = this.$store.getters.api + "/Account/Login";
+        this.$http
+          .post(apiCall, { username: this.username, password: this.password })
+          .then(res => {
+            console.log(res)
+            this.$emit("authorised");
+          });
       }
     }
   }
@@ -52,62 +69,62 @@ export default {
 </script>
 
 <style scoped>
-.login-container{
-    width:100vw;
-    height:100vh;
-    background-color:#003f5c;
-    overflow: hidden;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-box{
-    width:50%;
-    margin: 0 auto;
-     display:flex;
-  flex-direction:column;
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #003f5c;
+  overflow: hidden;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.login-logo{
+.login-box {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-logo {
   font-size: 24pt;
-  color:white;
-  position:absolute;
-  top:50px;
-  left:50px;
+  color: white;
+  position: absolute;
+  top: 50px;
+  left: 50px;
 }
 
-h3{
+h3 {
   font-size: 26pt;
-  color:white;
+  color: white;
 }
 
-.login-input-outer{
+.login-input-outer {
   width: 390px;
   background: #fff;
   border-radius: 10px;
   position: relative;
-  height:62px;
-  display:flex;
+  height: 62px;
+  display: flex;
   align-content: center;
   margin-top: 30px;
 }
 
-.login-input{
+.login-input {
   color: #403866;
   line-height: 1.2;
   font-size: 18px;
-  outline:none;
+  outline: none;
   width: 100%;
   background: transparent;
   height: 62px;
   padding: 0 20px 0 38px;
-  border:none;
+  border: none;
 }
 
-.input-anim{
+.input-anim {
   position: absolute;
   display: block;
   width: calc(100% + 2px);
@@ -147,7 +164,7 @@ h3{
   display: none;
 }
 
-.lbl-check{
+.lbl-check {
   font-size: 16px;
   color: white;
   line-height: 1.2;
@@ -189,16 +206,16 @@ h3{
   color: #827ffe;
 }
 
-.options{
-  display:flex;
-  align-items:center;
+.options {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 390px;
   margin-top: 20px;
 }
 
-.forgot a{
-  color:white; 
+.forgot a {
+  color: white;
   text-decoration: none;
 }
 
@@ -210,7 +227,7 @@ h3{
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
-  width:390px;
+  width: 390px;
   margin-top: 20px;
 }
 
@@ -240,8 +257,6 @@ h3{
 }
 
 .login-btn:hover {
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
-
 </style>
