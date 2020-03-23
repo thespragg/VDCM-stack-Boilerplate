@@ -21,6 +21,10 @@ namespace server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader();
+            }));
             services.Configure<AccountDatabaseSettings>(
             Configuration.GetSection(nameof(AccountDatabaseSettings)));
 
@@ -28,17 +32,19 @@ namespace server
                 sp.GetRequiredService<IOptions<AccountDatabaseSettings>>().Value);
 
             services.AddSingleton<UserService>();
+
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("ApiCorsPolicy");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
