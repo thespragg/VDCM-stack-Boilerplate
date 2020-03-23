@@ -1,45 +1,83 @@
 <template>
   <div id="app">
-    <RouterView></RouterView>
+    <div v-if="authenticated">
+      <RouterView></RouterView>
+    </div>
+    <div v-else>
+      <Login v-on:authorised="this.authenticated = true"/>
+    </div>
   </div>
 </template>
 
 <script>
+const Login = () => import("@/Views/Login");
+
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    Login
+  },
+  data() {
+    return {
+      authenticated: false
+    };
+  }
 }
 </script>
 
 <style>
+html,
+body {
+  background-color: #efedec;
+  margin: 0;
+  padding: 0;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+button{
+  border:none;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 #app {
-  font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-html {
-  box-sizing: border-box;
-  font-size: 16px;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
-  margin: 0;
-  padding: 0;
-  font-weight: normal;
-}
-
-ol, ul {
-  list-style: none;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 </style>

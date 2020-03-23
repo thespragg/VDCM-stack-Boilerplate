@@ -5,13 +5,12 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    //Store objects in here    
-},
+    api: "https://localhost:5001/api"
+  },
   mutations: {
-    
+
   },
   getters: {
-    //Format as below:
-    //name: state => state.userData.name,
+    api: state => state.api
   }
 });

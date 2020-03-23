@@ -65,12 +65,13 @@ namespace server.Controllers
 
         private byte[] HashPassword(string password, byte[] salt)
         {
-            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password));
-
-            argon2.Salt = salt;
-            argon2.DegreeOfParallelism = 8;
-            argon2.Iterations = 4;
-            argon2.MemorySize = 1024 * 1024;
+            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
+            {
+                Salt = salt,
+                DegreeOfParallelism = 8,
+                Iterations = 4,
+                MemorySize = 1024 * 1024
+            };
 
             return argon2.GetBytes(16);
         }
