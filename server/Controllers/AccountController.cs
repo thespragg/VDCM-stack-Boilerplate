@@ -1,5 +1,7 @@
 ﻿using Konscious.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using server.Helpers;
 using server.Models;
 using server.Services;
 using System;
@@ -14,23 +16,31 @@ namespace server.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserService _userService;
+        private IConfiguration _config;
 
-        public AccountController(UserService userService)
+        public AccountController(UserService userService, IConfiguration config)
         {
             _userService = userService;
+            _config = config;
         }
 
         [HttpPost("Login")]
-        public bool Login(UserLogin user)
+        public string Login(UserLogin user)
         {
             var storedUser = _userService.Find(user.Username);
             if(storedUser == null)
             {
                 //Need to add a time delay here to simulate password checking
-                return false;
+                return "";
             }
 
-            return VerifyHash(user.Password, storedUser.Salt, storedUser.Hash);
+            if(VerifyHash(user.Password,storedUser.Salt, storedUser.Hash))
+            {
+                var jwt = new JwtProvider(_config);
+                var token = jwt.GenerateSecurityToken(user.Username);
+                return token;
+            }
+            return "";
         }
 
         [HttpPost("Register")]
@@ -49,7 +59,6 @@ namespace server.Controllers
                 Created = DateTime.Now,
                 Name = user.Name,
             };
-
 
             _userService.Create(newUser);
             return true;
