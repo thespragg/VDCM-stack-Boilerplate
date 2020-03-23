@@ -1,6 +1,8 @@
 ﻿using Konscious.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
+using server.Services;
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,22 +13,45 @@ namespace server.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        [HttpPost]
-        public bool Login(User user)
+        private readonly UserService _userService;
+
+        public AccountController(UserService userService)
         {
-            return true;
+            _userService = userService;
+        }
+
+        [HttpPost("Login")]
+        public bool Login(UserLogin user)
+        {
+            var storedUser = _userService.Find(user.Username);
+            if(storedUser == null)
+            {
+                //Need to add a time delay here to simulate password checking
+                return false;
+            }
+
+            return VerifyHash(user.Password, storedUser.Salt, storedUser.Hash);
         }
 
         [HttpPost("Register")]
         public bool Register(NewUser user)
         {
-            //Check email isnt taken
-
-            //Store this
+            //TODO: Error handling
             var salt = CreateSalt();
-            //Store this
             var hash = HashPassword(user.Password, salt);
 
+            //Check email isnt taken
+            var newUser = new User()
+            {
+                Username = user.Email,
+                Salt = salt,
+                Hash = hash,
+                Created = DateTime.Now,
+                Name = user.Name,
+            };
+
+
+            _userService.Create(newUser);
             return true;
         }
 
