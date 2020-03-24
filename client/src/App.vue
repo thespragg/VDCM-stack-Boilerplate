@@ -7,7 +7,7 @@
      <div v-if="$mq == 'sm'">
         <MobileMenu class="shadow" />
       </div>
-    <RouterView :class="$mq == 'lg' ? changeWidth : ''"></RouterView>
+    <RouterView class="main-container" :class="$mq == 'lg' ? changeWidth : ''"></RouterView>
   </div>
 </template>
 
@@ -120,5 +120,9 @@ table {
 .unpinned-sidebar {
   margin-left: 260px;
   width: calc(100vw - 260px);
+}
+
+.main-container{
+  padding:10px;
 }
 </style>
