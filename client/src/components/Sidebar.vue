@@ -13,13 +13,13 @@
             <img src="@/assets/icons/homeIcon.png" class="icon" />
           </div>
         </router-link>
-        <router-link :to="{name:'Home'}" class="link-row">
+        <router-link :to="{name:'Components'}" class="link-row">
           <div class="selected"></div>
           <div class="link-icon">
             <img src="@/assets/icons/componentsIcon.png" class="icon" />
           </div>
         </router-link>
-        <router-link :to="{name: 'Home'}" class="link-row">
+        <router-link :to="{name: 'Colours'}" class="link-row">
           <div class="selected"></div>
           <div class="link-icon">
             <img src="@/assets/icons/coloursIcon.png" class="icon" />
@@ -56,13 +56,13 @@
           <h4>Home</h4>
         </router-link>
 
-        <router-link :to="{name:'Home'}" class="link-row">
+        <router-link :to="{name:'Components'}" class="link-row">
           <div class="selected"></div>
           <img src="@/assets/icons/componentsIcon.png" class="icon" />
           <h4>Components</h4>
         </router-link>
 
-        <router-link :to="{name: 'Home'}" class="link-row">
+        <router-link :to="{name: 'Colours'}" class="link-row">
           <div class="selected"></div>
           <img src="@/assets/icons/coloursIcon.png" class="icon" />
           <h4>Colour Palettes</h4>
@@ -199,7 +199,7 @@ export default {
     margin-bottom: 3px;
   }
   
-  .support-links .router-link-active .selected{
+  .support-links .router-link-exact-active .selected{
     display:none;
   }
   
@@ -218,26 +218,26 @@ export default {
     flex-grow: 1;
   }
   
-  .router-link-active {
+  .router-link-exact-active {
     background-color: #02354b !important;
   }
   
-  .router-link-active .icon {
+  .router-link-exact-active .icon {
     filter: brightness(150%);
   }
   
-  .pinned .router-link-active .link-icon {
+  .pinned .router-link-exact-active .link-icon {
     margin-left: 20px !important;
   }
   
-  .router-link-active .selected {
+  .router-link-exact-active .selected {
     display: block;
     background-color: #1d8dbf;
     height: 100%;
     width: 5px;
   }
   
-  .unpinned .router-link-active .icon{
+  .unpinned .router-link-exact-active .icon{
     margin-left: 20px;
   }
 </style>
