@@ -1,28 +1,14 @@
 <template>
   <div id="app">
-    <div v-if="authenticated">
       <RouterView></RouterView>
-    </div>
-    <div v-else>
-      <Login v-on:authorised="authenticated = true"/>
-    </div>
   </div>
 </template>
 
 <script>
-const Login = () => import("@/Views/Login");
 
 export default {
-  name: 'App',
-  components:{
-    Login
-  },
-  data() {
-    return {
-      authenticated: false
-    };
-  }
-}
+  name: "App",
+};
 </script>
 
 <style>
@@ -47,8 +33,8 @@ section {
   display: block;
 }
 
-button{
-  border:none;
+button {
+  border: none;
 }
 body {
   line-height: 1;
@@ -78,6 +64,6 @@ table {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 }
 </style>
