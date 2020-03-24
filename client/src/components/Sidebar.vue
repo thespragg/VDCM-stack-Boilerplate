@@ -70,13 +70,13 @@
       </div>
       <span class="side-padding"></span>
       <div class="support-links">
-        <router-link :to="{name:'Support'}" class="link-row bottom">
+        <router-link class="link-row bottom">
           <div class="selected"></div>
           <img src="@/assets/icons/supportIcon.png" class="icon" />
           <h4>Help</h4>
         </router-link>
 
-        <router-link :to="{name: 'Contact'}" class="link-row bottom">
+        <router-link class="link-row bottom">
           <div class="selected"></div>
           <img src="@/assets/icons/contactIcon.png" class="icon" />
           <h4>Contact</h4>
