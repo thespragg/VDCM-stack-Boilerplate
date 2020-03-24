@@ -58,6 +58,8 @@ npm run lint
 * Vuex
 * Vue-router
 * Axios
+* vue-mq
+* jsonwebtoken
 
 #### Backend
 * Microsoft.AspNetCore.Authentication.JwtBearer
