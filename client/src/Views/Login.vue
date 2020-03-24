@@ -59,12 +59,17 @@ export default {
         this.$http
           .post(apiCall, { username: this.username, password: this.password })
           .then(res => {
-            //create proper response handler
-            if (res.data) {
-              this.$emit("authorised");
-            }
+            localStorage.token = res.data;
+            this.$router.push({name: "Home"})
           });
       }
+    }
+  },
+  mounted(){
+    let token = localStorage.token;
+
+    if(token){
+      localStorage.removeItem("token")
     }
   }
 };
