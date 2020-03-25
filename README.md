@@ -1,6 +1,17 @@
 # Vue.js/dotnet core Web API/MondgoDB boilerplate - With authentication
 dotnet core 3.1
 
+## Images
+
+### Login Page
+![Login](https://user-images.githubusercontent.com/11881500/77589971-98993e00-6ee4-11ea-9932-65b9253a45bc.PNG)
+
+### Registration Page
+![register](https://user-images.githubusercontent.com/11881500/77590002-a6e75a00-6ee4-11ea-9b9c-0926591288e9.PNG)
+
+### Home Page
+![home](https://user-images.githubusercontent.com/11881500/77590008-a9e24a80-6ee4-11ea-8701-4bd3ab04a4d7.PNG)
+
 ## Project setup
 To fully configure & run the boilerplate follow the steps below.
 
