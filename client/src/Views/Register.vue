@@ -6,7 +6,7 @@
 
       <div class="register-input-outer" data-validate="Email is required">
         <input
-          v-model="username"
+          v-model="email"
           class="register-input"
           type="text"
           name="username"
@@ -17,15 +17,15 @@
 
       <div class="register-input-outer" data-validate="Your name is required">
         <input
-          v-model="password"
+          v-model="name"
           class="register-input"
-          type="password"
+          type="text"
           name="pass"
           placeholder="Full Name"
         />
         <span class="register-anim"></span>
       </div>
-      
+
       <div class="register-input-outer" data-validate="Password is required">
         <input
           v-model="password"
@@ -39,7 +39,7 @@
 
       <div class="register-input-outer" data-validate="Password is required">
         <input
-          v-model="password"
+          v-model="passwordVerify"
           class="register-input"
           type="password"
           name="pass"
@@ -59,12 +59,35 @@
 export default {
   data() {
     return {
-      username: "",
-      password: ""
+      email: "",
+      password: "",
+      passwordVerify: "",
+      name: ""
     };
   },
   methods: {
-    register() {}
+    register() {
+      if(this.email && this.password && this.passwordVerify && this.name){
+        if(this.password === this.passwordVerify){
+          let apiCall = this.$store.getters.api + "/Account/Register";
+          this.$http.post(apiCall, {
+            email: this.email,
+            password: this.password,
+            name: this.name
+          }).then(res=>{
+            //Add handling for res
+            if(!res.data){
+              console.log("Registration failed")
+            }
+            this.$router.push('/login');
+          })
+        } else{
+          //handle passwords not matching
+        }
+      } else{
+        //Handle empty field
+      }
+    }
   }
 };
 </script>
