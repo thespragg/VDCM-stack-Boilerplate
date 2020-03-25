@@ -4,13 +4,13 @@
     <div class="login-box">
       <h3>LOGIN</h3>
 
-      <div class="login-input-outer" data-validate="Username is required">
+      <div class="login-input-outer" data-validate="Email is required">
         <input
           v-model="username"
           class="login-input"
           type="text"
           name="username"
-          placeholder="Username"
+          placeholder="Email"
         />
         <span class="input-anim"></span>
       </div>
