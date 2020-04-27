@@ -6,8 +6,11 @@ import { store } from './store/store'
 import axios from 'axios'
 import VueMq from 'vue-mq'
 
+const axiosConf = {
+  baseURL: "http://localhost:44301/api/"
+}
+Vue.prototype.$http = axios.create(axiosConf)
 
-Vue.prototype.$http = axios
 Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(VueMq, {

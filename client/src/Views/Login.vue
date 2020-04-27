@@ -55,9 +55,8 @@ export default {
   methods: {
     login() {
       if (this.username && this.password) {
-        let apiCall = this.$store.getters.api + "/Account/Login";
         this.$http
-          .post(apiCall, { username: this.username, password: this.password })
+          .post("/Account/Login", { username: this.username, password: this.password })
           .then(res => {
             localStorage.token = res.data;
             this.$router.push({name: "Home"})

@@ -69,8 +69,7 @@ export default {
     register() {
       if(this.email && this.password && this.passwordVerify && this.name){
         if(this.password === this.passwordVerify){
-          let apiCall = this.$store.getters.api + "/Account/Register";
-          this.$http.post(apiCall, {
+          this.$http.post("/Account/Register", {
             email: this.email,
             password: this.password,
             name: this.name
