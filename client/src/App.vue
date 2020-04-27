@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="['login', 'register'].indexOf($route.name) > -1">
+    <div v-if="!hideSidebar">
       <div v-if="$mq == 'lg'">
         <Sidebar v-on:visible="reset()" v-on:sidebar-toggled="SidebarToggled()" />
         <DetailBar :class="changeWidth" class="shadow" />
@@ -38,6 +38,9 @@ export default {
   computed: {
     changeWidth() {
       return this.sidebarPinned ? "pinned-sidebar" : "unpinned-sidebar";
+    },
+    hideSidebar(){
+      return this.$route.name == 'Login' || this.$route.name == 'Register'
     }
   },
   methods: {

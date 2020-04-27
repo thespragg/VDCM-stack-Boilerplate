@@ -7,7 +7,7 @@ import axios from 'axios'
 import VueMq from 'vue-mq'
 
 const axiosConf = {
-  baseURL: "http://localhost:44301/api/"
+  baseURL: "https://localhost:44301/api/"
 }
 Vue.prototype.$http = axios.create(axiosConf)
 
