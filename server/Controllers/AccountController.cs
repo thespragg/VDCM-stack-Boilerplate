@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using server.Helpers;
 using server.Models;
 using server.Services;
+using server.Services.Interfaces;
 using Sodium;
 using System;
 using System.Linq;
@@ -14,15 +15,15 @@ namespace server.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private readonly IConfiguration _config;
 
-        public AccountController(UserService userService, IConfiguration config) => (_userService,_config) = (userService, config);
+        public AccountController(IUserService userService, IConfiguration config) => (_userService,_config) = (userService, config);
 
         [HttpPost("Login")]
         public IActionResult Login(string username, string password)
         {
-            var storedUser = _userService.Find(username);
+            var storedUser = _userService.FindByUsername(username);
             if (storedUser == null) return NotFound();
 
             var bytePass = Encoding.ASCII.GetBytes(password);
@@ -36,15 +37,17 @@ namespace server.Controllers
         [HttpPost("Register")]
         public IActionResult Register(string username, string password, string email)
         {
-            const int outputLength = 128;
+            var usernameTaken = _userService.FindByUsername(username) != null;
+            if (usernameTaken) return BadRequest("The username provided is already in use.");
 
-            //TODO: Error handling
+            var emailTaken = _userService.FindByEmail(email) != null;
+            if (emailTaken) return BadRequest("The email provided is already in use.");
+
+            const int outputLength = 128;
             var salt = PasswordHash.ScryptGenerateSalt();
             var bytePassword = Encoding.ASCII.GetBytes(password);
-
             var hash = PasswordHash.ScryptHashBinary(bytePassword, salt, PasswordHash.Strength.Medium, outputLength);
 
-            //Check email isnt taken
             var newUser = new User()
             {
                 Username = username,

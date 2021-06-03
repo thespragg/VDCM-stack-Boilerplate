@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using server.Middleware;
 using server.Models;
 using server.Services;
+using server.Services.Interfaces;
 
 namespace server
 {
@@ -32,7 +33,7 @@ namespace server
             services.AddSingleton<IAccountDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<AccountDatabaseSettings>>().Value);
 
-            services.AddSingleton<UserService>();
+            services.AddSingleton<IUserService, UserService>();
 
             services.AddControllers();
             services.AddTokenAuthentication(Configuration);

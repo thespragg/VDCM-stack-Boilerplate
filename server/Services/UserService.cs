@@ -1,13 +1,12 @@
 ﻿using MongoDB.Driver;
 using server.Models;
-using System;
+using server.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace server.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _users;
 
@@ -25,8 +24,11 @@ namespace server.Services
         public User Get(string id) =>
             _users.Find<User>(user => user.Id == id).FirstOrDefault();
 
-        public User Find(string email) => 
-            _users.Find(user => user.Username == email).FirstOrDefault();
+        public User FindByEmail(string email) =>
+            _users.Find(user => user.Email == email).FirstOrDefault();
+
+        public User FindByUsername(string username) =>
+            _users.Find(user => user.Username == username).FirstOrDefault();
 
         public User Create(User user)
         {
