@@ -62,32 +62,36 @@ export default {
       email: "",
       password: "",
       passwordVerify: "",
-      name: ""
+      name: "",
     };
   },
   methods: {
     register() {
-      if(this.email && this.password && this.passwordVerify && this.name){
-        if(this.password === this.passwordVerify){
-          this.$http.post("/Account/Register", {
-            email: this.email,
-            password: this.password,
-            name: this.name
-          }).then(res=>{
-            //Add handling for res
-            if(!res.data){
-              console.log("Registration failed")
-            }
-            this.$router.push('/login');
-          })
-        } else{
+      if (this.email && this.password && this.passwordVerify && this.name) {
+        if (this.password === this.passwordVerify) {
+          this.$http
+            .post(
+              `/accounts/login?username=${
+                this.username
+              }&password=${encodeURIComponent(
+                this.password
+              )}&email=${encodeURIComponent(this.email)}`
+            )
+            .then((res) => {
+              //Add handling for res
+              if (!res.data) {
+                console.log("Registration failed");
+              }
+              this.$router.push("/login");
+            });
+        } else {
           //handle passwords not matching
         }
-      } else{
+      } else {
         //Handle empty field
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

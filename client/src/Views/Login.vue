@@ -56,7 +56,7 @@ export default {
     login() {
       if (this.username && this.password) {
         this.$http
-          .post("/Account/Login", { username: this.username, password: this.password })
+          .post(`/accounts/login?username=${this.username}&password=${encodeURIComponent(this.password)}`)
           .then(res => {
             localStorage.token = res.data;
             this.$router.push({name: "Home"})
