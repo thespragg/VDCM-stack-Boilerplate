@@ -27,8 +27,8 @@ namespace server.Models
         [BsonElement("LoginIp")]
         public int LoginIp { get; set; }
 
-        [BsonElement("Name")]
-        public string Name { get; set; }
+        [BsonElement("Email")]
+        public string Email { get; set; }
 
         [BsonElement("Created")]
         public BsonDateTime Created { get; set; }

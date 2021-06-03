@@ -25,43 +25,43 @@ namespace server.Controllers
         }
 
         [HttpPost("Login")]
-        public string Login(UserLogin user)
+        public IActionResult Login(string username, string password)
         {
-            var storedUser = _userService.Find(user.Username);
+            var storedUser = _userService.Find(username);
             if(storedUser == null)
             {
                 //Need to add a time delay here to simulate password checking
-                return "";
+                return BadRequest();
             }
 
-            if(VerifyHash(user.Password,storedUser.Salt, storedUser.Hash))
+            if(VerifyHash(password,storedUser.Salt, storedUser.Hash))
             {
                 var jwt = new JwtProvider(_config);
-                var token = jwt.GenerateSecurityToken(user.Username);
-                return token;
+                var token = jwt.GenerateSecurityToken(username);
+                return Ok(token);
             }
-            return "";
+            return BadRequest();
         }
 
         [HttpPost("Register")]
-        public bool Register(NewUser user)
+        public IActionResult Register(string username, string password, string email)
         {
             //TODO: Error handling
             var salt = CreateSalt();
-            var hash = HashPassword(user.Password, salt);
+            var hash = HashPassword(password, salt);
 
             //Check email isnt taken
             var newUser = new User()
             {
-                Username = user.Email,
+                Username = username,
                 Salt = salt,
                 Hash = hash,
                 Created = DateTime.Now,
-                Name = user.Name,
+                Email = email
             };
 
-            _userService.Create(newUser);
-            return true;
+            var user = _userService.Create(newUser);
+            return Ok(user);
         }
 
         private byte[] CreateSalt()
