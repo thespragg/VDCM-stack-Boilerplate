@@ -1,7 +1,7 @@
 ﻿using server.Models;
 using System.Collections.Generic;
 
-namespace server.Services.Interfaces
+namespace server.DAL.Interfaces
 {
     public interface IUserService
     {

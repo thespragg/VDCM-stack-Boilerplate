@@ -1,10 +1,10 @@
 ﻿using MongoDB.Driver;
 using server.Models;
-using server.Services.Interfaces;
+using server.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace server.Services
+namespace server.DAL
 {
     public class UserService : IUserService
     {

@@ -6,8 +6,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using server.Middleware;
 using server.Models;
+using server.DAL;
+using server.DAL.Interfaces;
 using server.Services;
-using server.Services.Interfaces;
 
 namespace server
 {
@@ -30,10 +31,16 @@ namespace server
             services.Configure<AccountDatabaseSettings>(
             Configuration.GetSection(nameof(AccountDatabaseSettings)));
 
+
+            // START REGISTER DI
             services.AddSingleton<IAccountDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<AccountDatabaseSettings>>().Value);
-
             services.AddSingleton<IUserService, UserService>();
+            // END REGISTER DI
+
+            // START REGISTER SERVICES
+            services.AddHostedService<DatabaseSeed>();
+            // END REGISTER SERVICES
 
             services.AddControllers();
             services.AddTokenAuthentication(Configuration);
