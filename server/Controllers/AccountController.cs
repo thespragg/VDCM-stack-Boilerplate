@@ -1,12 +1,11 @@
-﻿using Konscious.Security.Cryptography;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using server.Helpers;
 using server.Models;
 using server.Services;
+using Sodium;
 using System;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace server.Controllers
@@ -16,39 +15,34 @@ namespace server.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserService _userService;
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
 
-        public AccountController(UserService userService, IConfiguration config)
-        {
-            _userService = userService;
-            _config = config;
-        }
+        public AccountController(UserService userService, IConfiguration config) => (_userService,_config) = (userService, config);
 
         [HttpPost("Login")]
         public IActionResult Login(string username, string password)
         {
             var storedUser = _userService.Find(username);
-            if(storedUser == null)
-            {
-                //Need to add a time delay here to simulate password checking
-                return BadRequest();
-            }
+            if (storedUser == null) return NotFound();
 
-            if(VerifyHash(password,storedUser.Salt, storedUser.Hash))
-            {
-                var jwt = new JwtProvider(_config);
-                var token = jwt.GenerateSecurityToken(username);
-                return Ok(token);
-            }
-            return BadRequest();
+            var bytePass = Encoding.ASCII.GetBytes(password);
+            if (!VerifyHash(bytePass, storedUser.Salt, storedUser.Hash)) return BadRequest("Incorrect Username or Password");
+
+            var jwt = new JwtProvider(_config);
+            var token = jwt.GenerateSecurityToken(username);
+            return Ok(token);
         }
 
         [HttpPost("Register")]
         public IActionResult Register(string username, string password, string email)
         {
+            const int outputLength = 128;
+
             //TODO: Error handling
-            var salt = CreateSalt();
-            var hash = HashPassword(password, salt);
+            var salt = PasswordHash.ScryptGenerateSalt();
+            var bytePassword = Encoding.ASCII.GetBytes(password);
+
+            var hash = PasswordHash.ScryptHashBinary(bytePassword, salt, PasswordHash.Strength.Medium, outputLength);
 
             //Check email isnt taken
             var newUser = new User()
@@ -64,31 +58,12 @@ namespace server.Controllers
             return Ok(user);
         }
 
-        private byte[] CreateSalt()
+        private static bool VerifyHash(byte[] password, byte[] salt, byte[] hash)
         {
-            var buffer = new byte[16];
-            var rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(buffer);
-            return buffer;
-        }
-
-        private byte[] HashPassword(string password, byte[] salt)
-        {
-            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
-            {
-                Salt = salt,
-                DegreeOfParallelism = 8,
-                Iterations = 4,
-                MemorySize = 1024 * 1024
-            };
-
-            return argon2.GetBytes(16);
-        }
-
-        private bool VerifyHash(string password, byte[] salt, byte[] hash)
-        {
-            var newHash = HashPassword(password, salt);
-            return hash.SequenceEqual(newHash);
+            const int outputLength = 128;
+            var providedPass =
+                PasswordHash.ScryptHashBinary(password, salt, PasswordHash.Strength.Medium, outputLength);
+            return hash.SequenceEqual(providedPass);
         }
     }
 }
